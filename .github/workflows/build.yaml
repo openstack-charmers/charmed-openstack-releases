@@ -23,7 +23,7 @@ jobs:
         run: |
           git clone https://github.com/openstack-charmers/release-tools
           sudo snap install --channel latest/edge/html-report charmhub-lp-tool
-          git rm report/*.html
+          git rm report/*.html || true
           ./gen-reports.sh
         env:
           # Generate a valid a macaroon with running:
