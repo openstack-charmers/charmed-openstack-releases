@@ -1,36 +1,41 @@
 #!/bin/bash -ux
 
+LOG_LEVEL=WARN
 # OpenStack
 for CHANNEL in {train,ussuri,victoria,wallaby,xena,yoga,zed,latest}/{edge,beta,candidate,stable}; do
     charmhub-lp-tool --config-dir ./release-tools/lp-builder-config/ \
-        --log DEBUG \
+        --log $LOG_LEVEL \
         -p openstack \
         -f html \
         check-builds \
         --channel $CHANNEL \
-        --output ./report/$(echo $CHANNEL  | tr / -).html
+        --output ./report/$(echo $CHANNEL  | tr / -).html &
 done
+wait
+
 # Ceph
 for CHANNEL in {luminous,mimic,nautilus,octopus,pacific,quincy,latest}/{edge,beta,candidate,stable}; do
     charmhub-lp-tool --config-dir ./release-tools/lp-builder-config/ \
-        --log DEBUG \
+        --log $LOG_LEVEL \
         -p ceph \
         -f html \
         check-builds \
         --channel $CHANNEL \
-        --output ./report/$(echo $CHANNEL  | tr / -).html
+        --output ./report/$(echo $CHANNEL  | tr / -).html &
 done
+wait
+
 # OVN
 for CHANNEL in {20.03,20.12,21.09,22.03,22.09,latest}/{edge,beta,candidate,stable}; do
     charmhub-lp-tool --config-dir ./release-tools/lp-builder-config/ \
-        --log DEBUG \
+        --log $LOG_LEVEL \
         -p openstack \
         -f html \
         check-builds \
         --channel $CHANNEL \
-        --output ./report/$(echo $CHANNEL  | tr / -).html
+        --output ./report/$(echo $CHANNEL  | tr / -).html &
 done
-
+wait
 LIST_OF_LINKS=""
 pushd report
 for REPORT in $(ls *.html); do
