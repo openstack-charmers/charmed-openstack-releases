@@ -1,0 +1,48 @@
+name: Build/Deploy
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - main
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron: "0 * * * *"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Rebuild the site
+        run: |
+          git clone https://github.com/openstack-charmers/release-tools
+          sudo snap install --edge charmhub-lp-tool
+          git rm report/*.html
+          ./gen-reports.sh
+        env:
+          # Generate a valid a macaroon with running:
+          # $ charmcraft login --export=secrets.auth  --permission=account-view-packages  --permission=package-view --ttl=$((265 * 24 60))  # 1 year
+          CHARMCRAFT_AUTH: ${{ secrets.CHARMCRAFT_AUTH }}
+
+      - name: Commit changes to data file
+        run: |
+          set -euo pipefail
+          git remote set-url origin https://x-access-token:"$GITHUB_TOKEN"@github.com/"$GITHUB_REPOSITORY".git
+          git config --global user.email "actions@github.com"
+          git config --global user.name "actions"
+
+          git checkout $GITHUB_REF_NAME
+          git add reports/
+          git commit -m "data: refresh release reports" && git push --set-upstream origin $GITHUB_REF_NAME || true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deploy to Github Pages
+        uses: peaceiris/actions-gh-pages@v3
+        if: github.ref == 'refs/heads/main'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./report
