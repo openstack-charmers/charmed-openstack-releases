@@ -19,7 +19,7 @@ jobs:
       - name: Rebuild the site
         run: |
           git clone https://github.com/openstack-charmers/release-tools
-          sudo snap install --edge charmhub-lp-tool
+          sudo snap install --channel latest/edge/html-report charmhub-lp-tool
           git rm report/*.html
           ./gen-reports.sh
         env:
