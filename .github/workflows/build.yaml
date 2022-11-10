@@ -40,7 +40,7 @@ jobs:
           git config --global user.name "actions"
 
           git checkout $GITHUB_REF_NAME
-          git add reports/
+          git add report/
           git commit -m "data: refresh release reports" && git push --set-upstream origin $GITHUB_REF_NAME || true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
