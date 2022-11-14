@@ -1,9 +1,9 @@
 #!/bin/bash -ux
 
-LOG_LEVEL=WARN
+LOG_LEVEL=INFO
 charmhub-lp-tool \
   --log $LOG_LEVEL \
-  --config-dir --config-dir ./release-tools/lp-builder-config/ \
+  --config-dir ./release-tools/lp-builder-config/ \
   -p ovn \
   -p ceph \
   -p openstack \
