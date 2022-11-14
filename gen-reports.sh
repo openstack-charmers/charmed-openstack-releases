@@ -2,7 +2,7 @@
 
 LOG_LEVEL=WARN
 charmhub-lp-tool \
-  --log LOG_LEVEL \
+  --log $LOG_LEVEL \
   --config-dir --config-dir ./release-tools/lp-builder-config/ \
   -p ovn \
   -p ceph \
