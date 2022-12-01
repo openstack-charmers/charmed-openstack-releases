@@ -22,8 +22,9 @@ jobs:
       - name: Rebuild the site
         run: |
           git clone https://github.com/openstack-charmers/release-tools
-          sudo snap install --channel latest/edge/html-report charmhub-lp-tool
-          git rm report/*.html || true
+          sudo snap install --channel latest/edge charmhub-lp-tool
+          git rm report/builds/*.html || true
+          git rm report/charmhub/*.html || true
           echo "${{ secrets.LP_CREDENTIALS }}" | base64 -d > lp-credentials.txt
           export LP_CREDENTIALS_FILE=$(pwd)/lp-credentials.txt
           ./gen-reports.sh
