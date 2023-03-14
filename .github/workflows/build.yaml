@@ -21,7 +21,7 @@ jobs:
           fetch-depth: 0
       - name: Rebuild the site
         run: |
-          git clone https://github.com/openstack-charmers/release-tools
+          git clone https://github.com/openstack-charmers/charmed-openstack-info
           sudo snap install --channel latest/edge charmhub-lp-tool
           git rm report/builds/*.html || true
           git rm report/charmhub/*.html || true

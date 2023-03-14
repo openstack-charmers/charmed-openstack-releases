@@ -3,7 +3,7 @@
 LOG_LEVEL=INFO
 charmhub-lp-tool \
   --log $LOG_LEVEL \
-  --config-dir ./release-tools/lp-builder-config/ \
+  --config-dir ./charmed-openstack-info/charmed_openstack_info/data/lp-builder-config/ \
   -p ovn \
   -p ceph \
   -p openstack \
@@ -14,7 +14,7 @@ charmhub-lp-tool \
 
 charmhub-lp-tool \
   --log $LOG_LEVEL \
-  --config-dir ./release-tools/lp-builder-config/ \
+  --config-dir ./charmed-openstack-info/charmed_openstack_info/data/lp-builder-config/ \
   -p ovn \
   -p ceph \
   -p openstack \
